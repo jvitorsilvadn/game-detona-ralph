@@ -2,6 +2,8 @@ main {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    background-image: url("../images/wall.png");
+
 }
 
 .menu{
@@ -13,6 +15,7 @@ main {
     width: 100vw;
     background-color: #000;
     color: #fff;
+    border-bottom: 5px solid #daa520;
 }
 
 .painel {
@@ -25,10 +28,42 @@ main {
 .campo {
     height: 150px;
     width: 150px;
-    background-color: #7fffd4;
+    background-color: #51e5f8;
     border: 1px solid #000000;
 }
 
 .inimigo {
-    background-color: #ff0000;
+    background-image:url("../images/ralph.png");
+    background-size: cover;
+}
+
+.menu-vidas img {
+    height: 60px;
+}
+
+.menu-vidas {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-tempo h2:nth-child(2),
+.menu-pontos h2:nth-child(2) {
+    margin-top: 1rem;
+}
+
+.menu-tempo h2:nth-child(1),
+.menu-pontos h2:nth-child(1) {
+    color: #ff0000;
+}
+
+button {
+    width: 130px;
+    height: 50px;
+    margin: auto;
+    border-radius: 30px;
+    background-color: #51e5f8;
+    border: none;
+    color: #fff;
 }
