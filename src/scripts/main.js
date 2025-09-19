@@ -9,19 +9,19 @@ const estado = {
   values: {
     timerId: null,
     countDownTimerId: null,
-    gameDuration: 60,       // Tempo total da partida
-    gameVelocity: 1000,     // Velocidade que o inimigo aparece
+    gameDuration: 60, // Tempo total da partida
+    gameVelocity: 1000, // Velocidade que o inimigo aparece
     hitPosition: null,
     result: 0,
     currentTime: 60,
-    isPlaying: false,       // Evita múltiplos jogos rodando ao mesmo tempo
+    isPlaying: false, // Evita múltiplos jogos rodando ao mesmo tempo
   },
 };
 
 function playSound(audioname) {
-    let audio = new Audio(`./src/audios/${audioname}`);
-    audio.volume = 0.2;
-    audio.play();
+  let audio = new Audio(`./src/audios/${audioname}`);
+  audio.volume = 0.2;
+  audio.play();
 }
 
 // Atualiza a interface do tempo e placar
@@ -48,8 +48,8 @@ function countDown() {
     updateView();
 
     if (estado.values.currentTime <= 0) {
-      alert(`⏳ Game Over! Sua pontuação foi: ${estado.values.result}`);
       playSound("gameOver.mp3");
+      alert(`⏳ Game Over! Sua pontuação foi: ${estado.values.result}`);
       resetGame();
     }
   }, 1000);
@@ -80,7 +80,7 @@ function addListenerHitBox() {
       if (square.id === estado.values.hitPosition) {
         estado.values.result++;
         estado.values.hitPosition = null;
-        playSound("hit.m4a")
+        playSound("hit.m4a");
         updateView();
       }
     });
