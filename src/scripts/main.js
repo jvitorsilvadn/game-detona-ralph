@@ -18,6 +18,12 @@ const estado = {
   },
 };
 
+function playSound(audioname) {
+    let audio = new Audio(`./src/audios/${audioname}`);
+    audio.volume = 0.2;
+    audio.play();
+}
+
 // Atualiza a interface do tempo e placar
 function updateView() {
   estado.view.timeLeft.textContent = estado.values.currentTime;
@@ -43,6 +49,7 @@ function countDown() {
 
     if (estado.values.currentTime <= 0) {
       alert(`⏳ Game Over! Sua pontuação foi: ${estado.values.result}`);
+      playSound("gameOver.mp3");
       resetGame();
     }
   }, 1000);
@@ -73,6 +80,7 @@ function addListenerHitBox() {
       if (square.id === estado.values.hitPosition) {
         estado.values.result++;
         estado.values.hitPosition = null;
+        playSound("hit.m4a")
         updateView();
       }
     });
