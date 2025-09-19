@@ -15,21 +15,21 @@
       <div class="menu">
         <div class="menu-tempo">
           <h2>Tempo restante</h2>
-          <h2>0</h2>
+          <h2 id="tempo-restante">0</h2>
         </div>
         <div class="menu-pontos">
           <h2>Sua Pontuação</h2>
-          <h2>0</h2>
+          <h2 id="pontuacao">0</h2>
         </div>
         <div class="menu-vidas">
-          <img src="" />
+          <img src="./src/images/player.png" alt="foto-do-jogador" />
           <h3>x3</h3>
         </div>
       </div>
 
       <div class="painel">
         <div class="linha-painel">
-          <div class="campo" id="1"></div>
+          <div class="campo inimigo" id="1"></div>
           <div class="campo" id="2"></div>
           <div class="campo" id="3"></div>
         </div>
@@ -46,6 +46,8 @@
           <div class="campo" id="9"></div>
         </div>
       </div>
+
+      <button id="jogar">Jogar</button>
     </main>
 
     <script defer src="./src/scripts/main.js"></script>
