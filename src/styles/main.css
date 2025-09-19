@@ -1,5 +1,7 @@
 main {
     display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .menu{
@@ -11,4 +13,22 @@ main {
     width: 100vw;
     background-color: #000;
     color: #fff;
+}
+
+.painel {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.campo {
+    height: 150px;
+    width: 150px;
+    background-color: #7fffd4;
+    border: 1px solid #000000;
+}
+
+.inimigo {
+    background-color: #ff0000;
 }
