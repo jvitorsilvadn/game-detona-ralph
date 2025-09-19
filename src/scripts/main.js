@@ -1,79 +1,93 @@
 const button = document.getElementById("jogar");
 
 const estado = {
-    view: {
-        squares: document.querySelectorAll(".campo"),
-        enemy: document.querySelector(".inimigo"),
-        timeLeft: document.querySelector("#tempo-restante"),
-        score: document.querySelector("#pontuacao"),
-    },
-    values: {
-        timerId: null,
-        Timer: 60,
-        gameVelocity: 1000, 
-        gameTimer: 1000,
-        hitPosition: 0,
-        result: 0,
-        currentTime: 10,
-        countDownTimerId: null,
-    }
-    
+  view: {
+    squares: document.querySelectorAll(".campo"),
+    timeLeft: document.querySelector("#tempo-restante"),
+    score: document.querySelector("#pontuacao"),
+  },
+  values: {
+    timerId: null,
+    countDownTimerId: null,
+    gameDuration: 60,       // Tempo total da partida
+    gameVelocity: 1000,     // Velocidade que o inimigo aparece
+    hitPosition: null,
+    result: 0,
+    currentTime: 60,
+    isPlaying: false,       // Evita múltiplos jogos rodando ao mesmo tempo
+  },
+};
+
+// Atualiza a interface do tempo e placar
+function updateView() {
+  estado.view.timeLeft.textContent = estado.values.currentTime;
+  estado.view.score.textContent = estado.values.result;
 }
 
+// Reseta os valores do jogo
+function resetGame() {
+  clearInterval(estado.values.timerId);
+  clearInterval(estado.values.countDownTimerId);
+  estado.values.result = 0;
+  estado.values.hitPosition = null;
+  estado.values.currentTime = estado.values.gameDuration;
+  estado.values.isPlaying = false;
+  updateView();
+}
+
+// Contagem regressiva
 function countDown() {
-    estado.values.countDownTimerId = setInterval(() => {
-        estado.values.currentTime--;
-        estado.view.timeLeft.textContent = estado.values.currentTime;
+  estado.values.countDownTimerId = setInterval(() => {
+    estado.values.currentTime--;
+    updateView();
 
-        if (estado.values.currentTime <= 0) {
-            alert("Game Over! O seu resultado foi " + estado.values.result);
-            estado.values.result = 0; // Resetando a pontuação
-            estado.values.hitPosition = null; // Resetando sprite
-            estado.view.score.textContent = estado.values.result // Atualizando Score
-            clearInterval(estado.values.countDownTimerId);
-            clearInterval(estado.values.timerId);
-            estado.values.currentTime = estado.values.Timer;
-        }
-    }, estado.values.gameTimer);
+    if (estado.values.currentTime <= 0) {
+      alert(`⏳ Game Over! Sua pontuação foi: ${estado.values.result}`);
+      resetGame();
+    }
+  }, 1000);
 }
 
-// função para randomizar a janela que o Ralph vai aparecer
+// Escolhe posição aleatória para o inimigo
 function randomSquare() {
-    estado.view.squares.forEach((square) => {
-        square.classList.remove("inimigo");
-    })
+  estado.view.squares.forEach((square) => {
+    square.classList.remove("inimigo");
+  });
 
-    let randomNumber = Math.floor(Math.random() * 9);
-    let randomSquare = estado.view.squares[randomNumber];
-    randomSquare.classList.add("inimigo");
-    estado.values.hitPosition = randomSquare.id
+  const randomIndex = Math.floor(Math.random() * estado.view.squares.length);
+  const chosenSquare = estado.view.squares[randomIndex];
 
+  chosenSquare.classList.add("inimigo");
+  estado.values.hitPosition = chosenSquare.id;
 }
 
-// função para movimentar o Ralph
+// Move o inimigo constantemente
 function moveEnemy() {
-    estado.values.timerId = setInterval(randomSquare, estado.values.gameVelocity)
+  estado.values.timerId = setInterval(randomSquare, estado.values.gameVelocity);
 }
 
-// função para verificar se o Ralph está na janela clicada e armazena pontuação
-function addListenerHitBox(){
-    estado.view.squares.forEach((square) => {
-        square.addEventListener("mousedown", () => {
-            if (square.id === estado.values.hitPosition) {
-                estado.values.result++
-                estado.view.score.textContent = estado.values.result
-                estado.values.hitPosition = null;
-            }
-        })
-    })
+// Adiciona evento de clique nas janelas
+function addListenerHitBox() {
+  estado.view.squares.forEach((square) => {
+    square.addEventListener("mousedown", () => {
+      if (square.id === estado.values.hitPosition) {
+        estado.values.result++;
+        estado.values.hitPosition = null;
+        updateView();
+      }
+    });
+  });
 }
 
+// Inicia o jogo
 function play() {
-    addListenerHitBox();
-    moveEnemy();
-    countDown();
+  if (estado.values.isPlaying) return; // evita múltiplos jogos
+  estado.values.isPlaying = true;
+
+  resetGame(); // garante que começa do zero
+  addListenerHitBox();
+  moveEnemy();
+  countDown();
 }
 
-button.addEventListener("click", () => {
-    play();
-})
+button.addEventListener("click", play);
